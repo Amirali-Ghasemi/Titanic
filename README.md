@@ -1,6 +1,8 @@
 # Titanic - Advanced Ensemble Learning Framework
 
-![Titanic Ship](assets/titanic.jpg)
+<p align="center">
+  <img src="assets/titanic.jpg" alt="Titanic Ship" width="900">
+</p>
 
 An end-to-end Machine Learning pipeline utilizing sophisticated feature engineering, state-of-the-art tree-based algorithms, hyperparameter optimization, and custom Ensemble methods (Voting & Stacking Classifiers) to predict survival rates for the classic Kaggle Titanic competition.
 
