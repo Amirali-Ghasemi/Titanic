@@ -4,6 +4,16 @@
   <img src="assets/titanic.jpg" alt="Titanic Ship" width="900">
 </p>
 
+---
+
+## Table of Contents
+- [Project Overview](#project-overview)
+- [Project Architecture](#project-architecture)
+- [Pipeline & Methodology](#pipeline--methodology)
+- [Algorithms & Optimization](#algorithms--optimization)
+- [Installation & Reproduction](#installation--reproduction)
+
+
 An end-to-end Machine Learning pipeline utilizing sophisticated feature engineering, state-of-the-art tree-based algorithms, hyperparameter optimization, and custom Ensemble methods (Voting & Stacking Classifiers) to predict survival rates for the classic Kaggle Titanic competition.
 
 ## Project Overview
