@@ -11,23 +11,58 @@
 - [Project Architecture](#project-architecture)
 - [Pipeline & Methodology](#pipeline--methodology)
 - [Algorithms & Optimization](#algorithms--optimization)
+- [Streamlit Live Demo](#streamlit-live-demo)
 - [Installation & Reproduction](#installation--reproduction)
+- [Screenshots](#screenshots)
+- [Notes](#notes)
 
+---
 
-An end-to-end Machine Learning pipeline utilizing sophisticated feature engineering, state-of-the-art tree-based algorithms, hyperparameter optimization, and custom Ensemble methods (Voting & Stacking Classifiers) to predict survival rates for the classic Kaggle Titanic competition.
+An end-to-end Machine Learning pipeline that combines **feature engineering**, **tree-based algorithms**, **hyperparameter optimization**, and **custom ensemble methods** (Voting & Stacking Classifiers) to predict survival rates for the classic Kaggle Titanic competition.
+
+Besides the offline pipeline, the project now includes a **deployed Streamlit app** that makes the model accessible as an interactive web demo.
+
+---
 
 ## Project Overview
 
-This repository showcases a structured, production-ready machine learning framework. Developed as a milestone project, it incorporates rigorous exploratory data analysis (EDA), custom pre-processing pipelines, robust cross-validation strategies, and advanced ensemble models to maximize predictive performance on the historical Titanic passenger dataset.
+This repository showcases a structured, production-oriented machine learning workflow.
+It was developed as a milestone project and includes:
+
+- Rigorous **Exploratory Data Analysis (EDA)**
+- Custom **pre-processing pipelines**
+- Robust **cross-validation strategies**
+- Advanced **ensemble models** (soft Voting & Stacking)
+- A **Streamlit dashboard** for real-time inference
+
+The goal is to maximize predictive performance on the historical Titanic passenger dataset while keeping the codebase clear, reproducible, and extensible.
+
+---
 
 ## Project Architecture
 
-The project structure is organized to maintain a clean separation between raw data, research notebooks, and serialized models:
+The project structure is organized to maintain a clean separation between raw data, research notebooks, serialized models, and the web app:
 
-- `data/`: Contains the training and testing datasets.
-- `notebooks/`: Comprehensive research and training workflow.
-- `models/`: Serialized final ensemble model (`.pkl`).
-- `requirements.txt`: Environment dependency specifications.
+- `data/`
+  Contains the training and testing datasets.
+
+- `notebooks/`
+  Jupyter notebooks covering EDA, feature engineering, model training, and evaluation.
+
+- `models/`
+  Serialized final ensemble model (`.pkl`) used both in offline experiments and by the Streamlit app.
+
+- `assets/`
+  Static assets such as the Titanic cover image and Streamlit app screenshots.
+
+- `app.py`
+  Streamlit application that loads the trained model and exposes an interactive UI for survival prediction.
+
+- `requirements.txt`
+  Environment dependency specifications.
+
+- `submission.csv`
+  Final predictions generated for Kaggle.
 
 ### Technologies Used
 
@@ -35,58 +70,112 @@ The project structure is organized to maintain a clean separation between raw da
 - Python 3.11
 - Scikit-Learn
 - XGBoost
+- Streamlit
 
-- `submission.csv`: Final predictions generated for Kaggle.
+---
 
 ## Pipeline & Methodology
 
 ### 1. Exploratory Data Analysis (EDA)
 
-- **Feature Correlation:** Investigated relationships between demographic variables (Gender, Age, Class) and the `Survived` target.
-- **Data Quality:** Addressed skewness in `Fare` distributions and managed significant missing value clusters.
-- **Contextual Insights:** Analyzed the influence of family size and socioeconomic indicators on survival probability.
+Key analysis steps include:
+
+- **Feature Correlation**
+  Investigating relationships between demographic variables (`Sex`, `Age`, `Pclass`, etc.) and the `Survived` target.
+
+- **Data Quality**
+  Handling skewed distributions (e.g., `Fare`) and addressing clusters of missing values.
+
+- **Contextual Insights**
+  Studying the impact of family size and socioeconomic indicators on survival probability.
+
+---
 
 ### 2. Feature Engineering & Extraction
 
-- **Title Extraction:** Isolated titles (e.g., `Mr`, `Mrs`, `Miss`, `Master`) and condensed rare titles (e.g., `Lady`, `Capt`, `Dr`) into a unified `Rare` category to reduce cardinality.
-- **Family Dimensions:** Computed `FamilySize = SibSp + Parch + 1` and created an `IsAlone` boolean feature to measure passenger independence.
-- **Deck Extraction:** Engineered structural deck assignments (e.g., `A`, `B`, `C`) derived from raw `Cabin` strings.
-- **Financial Metrics:** Calculated `FarePerPerson` to standardize costs.
-- **Intelligent Imputation:** Applied median-based imputation for numerical data and mode-based imputation for categorical features.
+To extract more signal from the raw data, several engineered features are introduced:
+
+- **Title Extraction**
+  Parsing passenger names to isolate titles (e.g., `Mr`, `Mrs`, `Miss`, `Master`) and collapsing rare titles (e.g., `Lady`, `Capt`, `Dr`) into a unified `Rare` category.
+
+- **Family Dimensions**
+  - `FamilySize = SibSp + Parch + 1`
+  - `IsAlone` (boolean feature) to capture whether a passenger traveled alone.
+
+- **Deck Extraction**
+  Deriving structural deck assignments (e.g., `A`, `B`, `C`) from raw `Cabin` strings.
+
+- **Financial Metrics**
+  `FarePerPerson` to normalize ticket cost per individual.
+
+- **Intelligent Imputation**
+  - Median-based imputation for numerical features
+  - Mode-based imputation for categorical features
+
+---
 
 ### 3. Pre-Processing Pipeline
 
-To ensure robust performance and prevent data leakage, we utilized Scikit-Learn’s `ColumnTransformer` and `Pipeline` architecture:
+To prevent data leakage and keep transformations consistent, the project relies on Scikit-Learn’s `ColumnTransformer` and `Pipeline`:
 
-- **Numerical Features:** Standardized via `StandardScaler`.
-- **Categorical Features:** Encoded via `OneHotEncoder` with `handle_unknown="ignore"` to maintain stability on unseen test sets.
+- **Numerical Features**
+  Standardized via `StandardScaler`.
+
+- **Categorical Features**
+  Encoded via `OneHotEncoder` with `handle_unknown="ignore"` to ensure robustness on unseen data.
+
+All preprocessing steps are encapsulated inside the pipeline so that training, validation, and inference share the exact same transformations.
+
+---
 
 ## Algorithms & Optimization
 
-We evaluated models through a rigorous 5-Fold Cross-Validation approach. Hyperparameters were fine-tuned using `GridSearchCV`.
+Models are evaluated with a **5-Fold Cross-Validation** strategy, and hyperparameters are tuned using `GridSearchCV`.
 
-| Model Name | Cross-Validation Score (Accuracy) |
-|-----------|------------------------------------|
-| Voting Classifier (Soft Ensemble) | Top Performer |
-| Stacking Classifier | High Performer |
-| XGBoost Classifier (Tuned) | High Performer |
-| Random Forest Classifier (Tuned) | Solid Performer |
-| Logistic Regression (Baseline) | Baseline |
+| Model Name                        | Cross-Validation Performance         |
+|-----------------------------------|--------------------------------------|
+| Voting Classifier (Soft Ensemble) | Top Performer                        |
+| Stacking Classifier               | High Performer                       |
+| XGBoost Classifier (Tuned)        | High Performer                       |
+| Random Forest Classifier (Tuned)  | Solid Performer                      |
+| Logistic Regression (Baseline)    | Baseline / Reference Model           |
 
 ### Custom Ensemble Architectures
 
-- **Voting Classifier:** Integrates predictions from Tuned Random Forest, Tuned XGBoost, and Logistic Regression using a soft-voting scheme, which averages the predicted probabilities.
-- **Stacking Classifier:** Implements a meta-learning approach where the outputs of base models (Random Forest and XGBoost) serve as features for a final meta-regressor (Logistic Regression), effectively optimizing meta-weights for the final decision.
+- **Voting Classifier (Soft Voting)**
+  Combines tuned Random Forest, tuned XGBoost, and Logistic Regression by averaging predicted probabilities for more stable decisions.
+
+- **Stacking Classifier**
+  Uses the outputs of base learners (Random Forest, XGBoost) as features for a meta-learner (Logistic Regression), effectively learning optimal meta-weights for the final prediction.
+
+---
+
+## Streamlit Live Demo
+
+The trained ensemble model is exposed via a **Streamlit web application**:
+
+- Interactive input controls for key passenger features
+- Real-time prediction of survival probability
+- Simple, clean UI suitable for demonstrations and portfolio use
+
+You can try the live demo here:
+
+> 🔗 **Live App:**
+> https://amirali-ghasemi-titanic-app-3nm9aa.streamlit.app/
+
+> 💻 **Source Code (this repository):**
+> https://github.com/Amirali-Ghasemi/Titanic
+
+---
 
 ## Installation & Reproduction
 
 ### Prerequisites
 
 - Python 3.11 or higher
+- `pip` (or `conda`) for package management
 
-### Setup Instructions
-
-#### 1. Clone the Repository
+### 1. Clone the Repository
 ```bash
-git clone https://github.com/<your-username>/titanic-survivor-prediction.git
-cd titanic-survivor-prediction
+git clone https://github.com/Amirali-Ghasemi/Titanic.git
+cd Titanic
