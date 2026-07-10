@@ -11,7 +11,7 @@ __pycache__/
 .ipynb_checkpoints/
 
 # مدل‌های آموزش داده شده (که معمولاً حجم بالایی دارند)
-models/*.pkl
+# models/*.pkl
 *.joblib
 *.h5
 
