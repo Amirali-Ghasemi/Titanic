@@ -116,7 +116,7 @@ To extract more signal from the raw data, several engineered features are introd
 
 ### 3. Pre-Processing Pipeline
 
-To prevent data leakage and keep transformations consistent, the project relies on Scikit-Learn’s `ColumnTransformer` and `Pipeline`:
+To prevent data leakage and keep transformations consistent, the project relies on Scikit-Learn's `ColumnTransformer` and `Pipeline`:
 
 - **Numerical Features**
   Standardized via `StandardScaler`.
@@ -160,11 +160,9 @@ The trained ensemble model is exposed via a **Streamlit web application**:
 
 You can try the live demo here:
 
-> 🔗 **Live App:**
-> https://amirali-ghasemi-titanic-app-3nm9aa.streamlit.app/
-
-> 💻 **Source Code (this repository):**
-> https://github.com/Amirali-Ghasemi/Titanic
+> **Live App:** https://amirali-ghasemi-titanic-app-3nm9aa.streamlit.app/
+>
+> **Source Code (this repository):** https://github.com/Amirali-Ghasemi/Titanic
 
 ---
 
@@ -176,6 +174,52 @@ You can try the live demo here:
 - `pip` (or `conda`) for package management
 
 ### 1. Clone the Repository
+
 ```bash
 git clone https://github.com/Amirali-Ghasemi/Titanic.git
 cd Titanic
+```
+
+### 2. Create & Activate Virtual Environment (Optional but Recommended)
+
+```bash
+python -m venv .venv
+source .venv/bin/activate      # Linux/macOS
+# .venv\Scripts\activate       # Windows
+```
+
+### 3. Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Run the Streamlit App Locally
+
+```bash
+streamlit run app.py
+```
+
+The app will be available at:
+
+```
+http://localhost:8501
+```
+
+---
+
+## Screenshots
+
+### Streamlit App – Survival Prediction Dashboard
+
+<p align="center">
+  <img src="assets/streamlit_dashboard.png" alt="Titanic Survival Streamlit App" width="900">
+</p>
+
+---
+
+## Notes
+
+- The repository is designed to be portfolio-ready: clean structure, clear documentation, and a live demo.
+- The Streamlit app and the offline training pipeline share the same serialized model, ensuring consistency between experimental results and live predictions.
+- Feel free to explore the notebooks, tweak hyperparameters, or extend the Streamlit UI with additional features (e.g., probability calibration, explanation plots, or SHAP values).
